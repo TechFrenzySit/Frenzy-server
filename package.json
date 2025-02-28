@@ -1,15 +1,44 @@
 {
-  "name": "server",
-  "version": "1.0.0",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC",
-  "description": "",
-  "dependencies": {
-    "express": "^4.21.2",
-    "nodemon": "^3.1.9"
-  }
+    "name": "tech-frenzy-backend",
+    "version": "0.0.1",
+    "description": "This repository is for the backend of the official website of Tech frenzy club of SIT.",
+    "main": "app.js",
+    "type": "module",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/TechFrenzySit/Frenzy-server"
+    },
+    "bugs": {
+        "url": "https://github.com/TechFrenzySit/Frenzy-server/issues"
+    },
+    "homepage": "https://github.com/TechFrenzySit/Frenzy-server",
+    "scripts": {
+        "dev": "nodemon ./app.js",
+        "start": "node ./app.js"
+    },
+    "author": "Tech Frenzy, Technical team, Rick Sarkar",
+    "license": "ISC",
+    "dependencies": {
+        "axios": "^1.7.9",
+        "bcryptjs": "^2.4.3",
+        "body-parser": "^1.20.3",
+        "cookie-parser": "^1.4.7",
+        "cors": "^2.8.5",
+        "dotenv": "^16.4.7",
+        "express": "^4.21.2",
+        "express-rate-limit": "^7.5.0",
+        "helmet": "^8.0.0",
+        "jsonwebtoken": "^9.0.2",
+        "mongoose": "^8.9.4",
+        "morgan": "^1.10.0",
+        "multer": "^1.4.5-lts.1",
+        "nodemailer": "^6.9.16",
+        "zod": "^3.24.1"
+    },
+    "devDependencies": {
+        "nodemon": "^3.1.9"
+    },
+    "engines": {
+        "node": ">=19.0.0"
+    }
 }
