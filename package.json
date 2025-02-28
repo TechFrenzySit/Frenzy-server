@@ -13,8 +13,8 @@
     },
     "homepage": "https://github.com/TechFrenzySit/Frenzy-server",
     "scripts": {
-        "dev": "nodemon ./app.js",
-        "start": "node ./app.js"
+        "dev": "nodemon ./server.cjs",
+        "start": "node ./server.cjs"
     },
     "author": "SIT - Tech Frenzy, Technical team, Rick Sarkar, SKY TECH - RICK",
     "license": "ISC",
