@@ -4,10 +4,15 @@ import cookieParser from "cookie-parser";
 import { configDotenv } from "dotenv";
 import api from "./routes/api.js";
 import errorHandlerMiddleware from "./middlewares/errorHandlerMiddleware.js";
+import securityMiddleware from "./middlewares/securityMiddleware.js";
+import accessHandler from "./middlewares/accessHandler.js";
 
 configDotenv();
 
 const app = express();
+
+securityMiddleware(app);
+app.use(accessHandler);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser(process.env.COOKIE_SECRET));
