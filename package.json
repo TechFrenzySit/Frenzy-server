@@ -16,7 +16,7 @@
         "dev": "nodemon ./app.js",
         "start": "node ./app.js"
     },
-    "author": "Tech Frenzy, Technical team, Rick Sarkar",
+    "author": "SIT - Tech Frenzy, Technical team, Rick Sarkar, SKY TECH - RICK",
     "license": "ISC",
     "dependencies": {
         "axios": "^1.7.9",
