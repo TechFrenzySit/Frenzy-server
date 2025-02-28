@@ -13,6 +13,15 @@ export const registration = async ( req , res , next ) => {
             });
         };
 
+        const teamNameExists = await registrationModel.findOne({ teamName: validatedData.data.teamName });
+
+        if (teamNameExists) {
+            return res.status(400).json({
+                status: "error",
+                message: "Team name already exists, choose another name.",
+            });
+        };
+
         const registration = await registrationModel(validatedData.data);
 
         await registration.save();
