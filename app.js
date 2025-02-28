@@ -6,11 +6,13 @@ import api from "./routes/api.js";
 import errorHandlerMiddleware from "./middlewares/errorHandlerMiddleware.js";
 import securityMiddleware from "./middlewares/securityMiddleware.js";
 import accessHandler from "./middlewares/accessHandler.js";
+import dbConnect from "./config/dbConnect.js";
 
 configDotenv();
 
 const app = express();
 
+await dbConnect();
 securityMiddleware(app);
 app.use(accessHandler);
 app.use(bodyParser.json());
