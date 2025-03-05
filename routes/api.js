@@ -2,7 +2,7 @@ import express from "express";
 const apiRouter = express.Router();
 export default apiRouter;
 
-import { registration } from "../controllers/registrationController.js";
+import { registration , newsLetter } from "../controllers/registrationController.js";
 
 apiRouter.get("/", ( req , res , next ) => {
     return res.status(200).json({
@@ -12,3 +12,4 @@ apiRouter.get("/", ( req , res , next ) => {
 });
 
 apiRouter.post("/registration" , registration );
+apiRouter.post("/news-letter" , newsLetter );
