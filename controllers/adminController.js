@@ -100,6 +100,39 @@ export const uploadNewsletterTemplate = async ( req , res , next ) => {
     };
 };
 
+export const sendMailToAll = async ( req , res , next ) => {
+    try {
+        
+        const templatePath = path.join(process.cwd(), "mailTemplates", "newsletterMail.json");
+        const templateData = fs.readFileSync(templatePath, "utf-8");
+        const { subject , html } = JSON.parse(templateData);
+
+        const allEmails = await mails
+            .find()
+            .sort({ createdAt: 1 })
+            .select("-__v -_id -updatedAt -createdAt")
+            .exec();
+
+        const mailArray = allEmails.map((mail) => mail.email);
+
+        const mailOptions = {
+            from: `Notification <{process.env.EMAIL}>`,
+            to: mailArray,
+            subject,
+            html,
+        };
+
+        return res.status(200).json({
+            status: "success",
+            message: "Sending mails.",
+            data: mailArray,
+        });
+
+    } catch (error) {
+        next(error);
+    };
+};
+
 export const newEvent = async ( req , res , next ) => {
     try {
 
