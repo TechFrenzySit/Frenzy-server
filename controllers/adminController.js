@@ -1,5 +1,6 @@
 import mails from "../models/mails.js";
 import events from "../models/events.js";
+import registrationModel from "../models/registrationModel.js";
 
 import { createEventSchema } from "../utils/zodSchema.js";
 
@@ -84,6 +85,22 @@ export const getAllEvents = async ( req , res , next ) => {
             status: "success",
             message: "All events fetched successfully.",
             data: allEvents,
+        });
+
+    } catch (error) {
+        next(error);
+    };
+};
+
+export const getAllParticipants = async ( req , res , next ) => {
+    try {
+
+        const allParticipants = await registrationModel.find({});
+
+        return res.status(200).json({
+            status: "success",
+            message: "All participants fetched successfully.",
+            data: allParticipants,
         });
 
     } catch (error) {
