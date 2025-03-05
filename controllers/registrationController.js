@@ -31,7 +31,7 @@ export const registration = async ( req , res , next ) => {
             email: validatedData.data.email,
         });
         await n.save();
-        
+
         // send mail to team leader and core team
 
         return res.status(200).json({

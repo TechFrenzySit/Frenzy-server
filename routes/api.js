@@ -2,6 +2,7 @@ import express from "express";
 const apiRouter = express.Router();
 export default apiRouter;
 
+import adminRouter from "./adminRouter.js";
 import { registration , newsLetter } from "../controllers/registrationController.js";
 
 apiRouter.get("/", ( req , res , next ) => {
@@ -13,3 +14,4 @@ apiRouter.get("/", ( req , res , next ) => {
 
 apiRouter.post("/registration" , registration );
 apiRouter.post("/news-letter" , newsLetter );
+apiRouter.use("/admin" , adminRouter );
