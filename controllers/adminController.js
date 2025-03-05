@@ -33,12 +33,33 @@ export const deleteNewsLetter = async ( req , res , next ) => {
 export const getNewsLetter = async ( req , res , next ) => {
     try {
 
-        const allEmails = await mails.find({});
+        const {
+            page = 1,
+            limit = 50,
+        } = req.query;
+
+        const allEmails = await mails
+            .find()
+            .limit(parseInt(limit))
+            .skip((parseInt(page) - 1) * parseInt(limit))
+            .sort({ createdAt: -1 })
+            .select("-__v -_id -updatedAt")
+            .exec();
+
+        const totalEmails = await mails.countDocuments();
 
         return res.status(200).json({
             status: "success",
             message: "All emails fetched successfully.",
+            totalMails: allEmails.length,
             data: allEmails,
+            meta: {
+                page: parseInt(page),
+                limit: parseInt(limit),
+                totalEmails,
+                totalPages: Math.ceil(totalEmails / parseInt(limit)),
+                more: (parseInt(page) * parseInt(limit)) < totalEmails? true : false,
+            }
         });
 
     } catch (error) {
