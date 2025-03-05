@@ -1,6 +1,6 @@
 import mails from "../models/mails.js";
 import events from "../models/events.js";
-import registrationModel from "../models/teamRegistrationModel.js";
+import teamRegistrationModel from "../models/teamRegistrationModel.js";
 import fs from "fs";
 import path from "path";
 
@@ -179,10 +179,10 @@ export const getAllEvents = async ( req , res , next ) => {
     };
 };
 
-export const getAllParticipants = async ( req , res , next ) => {
+export const getAllTeamParticipants = async ( req , res , next ) => {
     try {
 
-        const allParticipants = await registrationModel.find({});
+        const allParticipants = await teamRegistrationModel.find({});
 
         return res.status(200).json({
             status: "success",
