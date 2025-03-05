@@ -1,6 +1,8 @@
 import mails from "../models/mails.js";
 import events from "../models/events.js";
 import registrationModel from "../models/teamRegistrationModel.js";
+import fs from "fs";
+import path from "path";
 
 import { createEventSchema } from "../utils/zodSchema.js";
 
@@ -60,6 +62,37 @@ export const getNewsLetter = async ( req , res , next ) => {
                 totalPages: Math.ceil(totalEmails / parseInt(limit)),
                 more: (parseInt(page) * parseInt(limit)) < totalEmails? true : false,
             }
+        });
+
+    } catch (error) {
+        next(error);
+    };
+};
+
+export const uploadNewsletterTemplate = async ( req , res , next ) => {
+    try {
+            
+        const { subject , html } = req.body;
+
+        if(!subject || !html) {
+            return res.status(400).json({
+                status: "error",
+                message: "Subject and html is required.",
+            });
+        };
+
+        const jsonTemplate = {
+            subject,
+            html,
+        };
+
+        const templatePath = path.join(process.cwd(), "mailTemplates", "newsletterMail.json");
+
+        fs.writeFileSync(templatePath, JSON.stringify(jsonTemplate));
+
+        return res.status(200).json({
+            status: "success",
+            message: "Mail format uploaded successfully.",
         });
 
     } catch (error) {
