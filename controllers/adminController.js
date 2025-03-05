@@ -74,3 +74,19 @@ export const newEvent = async ( req , res , next ) => {
         next(error);
     };
 };
+
+export const getAllEvents = async ( req , res , next ) => {
+    try {
+
+        const allEvents = await events.find({});
+
+        return res.status(200).json({
+            status: "success",
+            message: "All events fetched successfully.",
+            data: allEvents,
+        });
+
+    } catch (error) {
+        next(error);
+    };
+};
