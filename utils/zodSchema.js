@@ -22,3 +22,12 @@ export const registrationSchema = z.object({
 export const emailSchema = z.object({
     email: z.string().email().transform((val) => val.toLowerCase()),
 });
+
+export const createEventSchema = z.object({
+    title: z.string().min(3).max(80),
+    description: z.string().min(3).max(500),
+    dates: z.object({
+        startingDate: z.string(),
+        endingDate: z.string(),
+    }),
+});
