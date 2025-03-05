@@ -18,3 +18,7 @@ export const registrationSchema = z.object({
         year: z.string().min(1).max(4).optional(),
     })),
 });
+
+export const emailSchema = z.object({
+    email: z.string().email().transform((val) => val.toLowerCase()),
+});

@@ -1,6 +1,6 @@
 import registrationModel from "../models/registrationModel.js";
 import mails from "../models/mails.js";
-import { registrationSchema } from "../utils/zodSchema.js"
+import { registrationSchema , emailSchema } from "../utils/zodSchema.js"
 
 export const registration = async ( req , res , next ) => {
     try {
@@ -10,7 +10,7 @@ export const registration = async ( req , res , next ) => {
         if (!validatedData.success) {
             return res.status(400).json({
                 status: "error",
-                message: process.env.NODE_ENV === "development" ? validatedData.error.errors : "Invalid data",
+                message: validatedData.error.errors,
             });
         };
 
@@ -47,7 +47,16 @@ export const registration = async ( req , res , next ) => {
 export const newsLetter = async ( req , res , next ) => {
     try {
             
-            const { email } = req.body;
+            const validatedData = emailSchema.safeParse(req.body);
+            
+            if(!validatedData.success) {
+                return res.status(400).json({
+                    status: "error",
+                    message: validatedData.error.errors,
+                });
+            };
+
+            const { email } = validatedData.data;
     
             const existingEmail = await mails.exists({ email });
 
