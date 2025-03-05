@@ -24,3 +24,19 @@ export const deleteNewsLetter = async ( req , res , next ) => {
         next(error);
     };
 };
+
+export const getNewsLetter = async ( req , res , next ) => {
+    try {
+
+        const allEmails = await mails.find({});
+
+        return res.status(200).json({
+            status: "success",
+            message: "All emails fetched successfully.",
+            data: allEmails,
+        });
+
+    } catch (error) {
+        next(error);
+    };
+};
