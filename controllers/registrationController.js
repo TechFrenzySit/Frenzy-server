@@ -63,7 +63,7 @@ export const newsLetter = async ( req , res , next ) => {
             if (existingEmail) {
                 return res.status(400).json({
                     status: "error",
-                    message: "Already subcrined to news letter.",
+                    message: "Already subscribed to news letter.",
                 });
             };
 
