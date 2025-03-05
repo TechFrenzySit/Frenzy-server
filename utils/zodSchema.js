@@ -1,6 +1,7 @@
 import z from 'zod';
 
-export const registrationSchema = z.object({
+export const teamRegistrationSchema = z.object({
+    eventId: z.string(),
     teamName: z.string().min(3).max(80),
     topicName: z.string().min(3).max(200),
     topicDescription: z.string().min(3).max(500),

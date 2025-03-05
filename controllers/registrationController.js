@@ -1,11 +1,13 @@
-import registrationModel from "../models/registrationModel.js";
+import teamRegistrationModel from "../models/teamRegistrationModel.js";
 import mails from "../models/mails.js";
-import { registrationSchema , emailSchema } from "../utils/zodSchema.js"
+import events from "../models/events.js";
 
-export const registration = async ( req , res , next ) => {
+import { teamRegistrationSchema , emailSchema } from "../utils/zodSchema.js"
+
+export const registrationTeam = async ( req , res , next ) => {
     try {
 
-        const validatedData = registrationSchema.safeParse(req.body);
+        const validatedData = teamRegistrationSchema.safeParse(req.body);
 
         if (!validatedData.success) {
             return res.status(400).json({
@@ -14,28 +16,73 @@ export const registration = async ( req , res , next ) => {
             });
         };
 
-        const teamNameExists = await registrationModel.exist({
-            $or: [
-                { teamName: validatedData.data.teamName },
-                { email: validatedData.data.email },
-            ],
+        const eventId = validatedData.data.eventId;
+
+        const eventExist = await events.findOne({
+            _id: eventId,
         });
 
-        if (teamNameExists) {
+        if (!eventExist) {
             return res.status(400).json({
                 status: "error",
-                message: "Team name already exists or mail, choose another name.",
+                message: "Event does not exist.",
             });
         };
 
-        const registration = await registrationModel(validatedData.data);
+        const currentDate = new Date();
+
+        if(!eventExist.isOpen) {
+            return res.status(400).json({
+                status: "error",
+                message: "Event registration is closed.",
+            });
+        };
+
+        // check the time of the event for closing registration
+
+
+
+
+
+
+
+
+        const teamNameExists1 = await teamRegistrationModel.find({
+            email: validatedData.data.email,
+            event: eventId,
+        });
+
+        if (teamNameExists1.length > 0) {
+            return res.status(400).json({
+                status: "error",
+                message: "You have already registered the team.",
+            });
+        };
+
+        const teamNameExists2 = await teamRegistrationModel.find({
+            teamName: validatedData.data.teamName,
+            event: eventId,
+        });
+
+        if (teamNameExists2.length > 0) {
+            return res.status(400).json({
+                status: "error",
+                message: "Team name already exists.",
+            });
+        };
+
+        const registration = new teamRegistrationModel({...validatedData.data, event: eventId});
 
         await registration.save();
         
-        const n = new mails({
-            email: validatedData.data.email,
-        });
-        await n.save();
+        const checkMail = await mails.exists({ email: validatedData.data.email });
+
+        if(!checkMail) {
+            const n = new mails({
+                email: validatedData.data.email,
+            });
+            await n.save();
+        };
 
         // send mail to team leader and core team
 
@@ -85,4 +132,8 @@ export const newsLetter = async ( req , res , next ) => {
     } catch (error) {
         next(error);
     };
+};
+
+export const registrationSolo = async ( req , res , next ) => {
+    
 };

@@ -5,7 +5,6 @@ const registrationSchema = new mongoose.Schema({
     teamName: {
         type: String,
         required: true,
-        unique: [true, "Team name already exists"],
         minlength: [3, "Team name must be at least 3 characters long"],
         maxlength: [80, "Team name must be at most 80 characters long"],
     },
@@ -44,6 +43,14 @@ const registrationSchema = new mongoose.Schema({
         required: true,
         unique: true,
     },
+    isMailSent: {
+        type: Boolean,
+        default: false,
+    },
+    isSelected: {
+        type: Boolean,
+        default: false,
+    },
     numberOfMembers: {
         type: Number,
         required: true,
@@ -66,6 +73,11 @@ const registrationSchema = new mongoose.Schema({
             },
         },
     ],
+    event: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "events",
+        required: true,
+    },
     createdAt: {
         type: Date,
         default: Date.now,
@@ -76,6 +88,6 @@ const registrationSchema = new mongoose.Schema({
     },
 });
 
-const Registration = mongoose.model("registration", registrationSchema);
+const Registration = mongoose.model("team_registration", registrationSchema);
 
 export default Registration;

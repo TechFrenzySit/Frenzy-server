@@ -1,6 +1,6 @@
 import mails from "../models/mails.js";
 import events from "../models/events.js";
-import registrationModel from "../models/registrationModel.js";
+import registrationModel from "../models/teamRegistrationModel.js";
 
 import { createEventSchema } from "../utils/zodSchema.js";
 
