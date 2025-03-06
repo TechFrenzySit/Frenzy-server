@@ -29,7 +29,7 @@ export const createEventSchema = z.object({
     title: z.string().min(3).max(80),
     description: z.string().min(3).max(500),
     type: z.enum(["solo", "team"]),
-    dates: z.object({
+    timerDates: z.object({
         startingDate: z.string(),
         endingDate: z.string(),
     }),

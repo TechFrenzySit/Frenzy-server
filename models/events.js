@@ -11,7 +11,7 @@ const eventSchema = new mongoose.Schema({
         required: true,
         unique: [true, "Event title already exists"],
     },
-    dates: {
+    timerDates: {
         startingDate: {
             type: Date,
             required: true,
@@ -26,7 +26,7 @@ const eventSchema = new mongoose.Schema({
         required: true,
         enum: ["solo", "team"],
     },
-    registration: {
+    registrationDates: {
         startingDate: {
             type: Date,
             required: false,

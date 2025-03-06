@@ -214,8 +214,8 @@ export const eventSetting = async ( req , res , next ) => {
             });
         };
 
-        event.registration.startingDate = Date(startingDate);
-        event.registration.endingDate = Date(endingDate);
+        event.registrationDates.startingDate = Date(startingDate);
+        event.registrationDates.endingDate = Date(endingDate);
         event.isOpen = true;
 
         await event.save();
