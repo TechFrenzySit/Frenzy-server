@@ -35,18 +35,23 @@ export const registrationTeam = async ( req , res , next ) => {
         if(!eventExist.isOpen) {
             return res.status(400).json({
                 status: "error",
-                message: "Event registration is closed.",
+                message: "Event is closed.",
             });
         };
 
-        // check the time of the event for closing registration
+        if (currentDate < eventExist.registrationDates.startingDate) {
+            return res.status(400).json({
+                status: "error",
+                message: "Registration has not started yet.",
+            });
+        };
 
-
-
-
-
-
-
+        if (currentDate > eventExist.registrationDates.endingDate) {
+            return res.status(400).json({
+                status: "error",
+                message: "Registration is closed.",
+            });
+        };
 
         const teamNameExists1 = await teamRegistrationModel.find({
             "teamLeader.email": validatedData.data.teamLeader.email,
