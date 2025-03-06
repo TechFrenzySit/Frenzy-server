@@ -145,6 +145,31 @@ export const newEvent = async ( req , res , next ) => {
             });
         };
 
+        const currentDate = new Date();
+        const saveStartingDate = new Date(validatedData.data.timerDates.startingDate);
+        const saveEndingDate = new Date(validatedData.data.timerDates.endingDate);
+
+        if(saveStartingDate > saveEndingDate) {
+            return res.status(400).json({
+                status: "error",
+                message: "Starting date should be less than ending date.",
+            });
+        };
+
+        if(saveStartingDate < currentDate) {
+            return res.status(400).json({
+                status: "error",
+                message: "Starting date should be greater than current date.",
+            });
+        };
+
+        if(saveEndingDate < currentDate) {
+            return res.status(400).json({
+                status: "error",
+                message: "Ending date should be greater than current date.",
+            });
+        };
+
         const newEv = new events({
             ...validatedData.data,
             isOpen: false,
@@ -214,8 +239,33 @@ export const eventSetting = async ( req , res , next ) => {
             });
         };
 
-        event.registrationDates.startingDate = Date(startingDate);
-        event.registrationDates.endingDate = Date(endingDate);
+        const currentDate = new Date();
+        const saveStartingDate = new Date(startingDate);
+        const saveEndingDate = new Date(endingDate);
+
+        if(saveStartingDate > saveEndingDate) {
+            return res.status(400).json({
+                status: "error",
+                message: "Starting date should be less than ending date.",
+            });
+        };
+
+        if(saveStartingDate < currentDate) {
+            return res.status(400).json({
+                status: "error",
+                message: "Starting date should be greater than current date.",
+            });
+        };
+
+        if(saveEndingDate < currentDate) {
+            return res.status(400).json({
+                status: "error",
+                message: "Ending date should be greater than current date.",
+            });
+        };
+
+        event.registrationDates.startingDate = saveStartingDate;
+        event.registrationDates.endingDate = saveEndingDate;
         event.isOpen = true;
 
         await event.save();
