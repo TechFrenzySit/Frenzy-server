@@ -31,7 +31,9 @@ export const registrationTeam = async ( req , res , next ) => {
         };
 
         const currentDate = new Date();
-
+        const checkStartingDate = new Date(eventExist.registrationDates.startingDate)
+        const checkEndingDate = new Date(eventExist.registrationDates.endingDate)
+        
         if(!eventExist.isOpen) {
             return res.status(400).json({
                 status: "error",
@@ -39,14 +41,14 @@ export const registrationTeam = async ( req , res , next ) => {
             });
         };
 
-        if (currentDate < eventExist.registrationDates.startingDate) {
+        if (currentDate < checkStartingDate) {
             return res.status(400).json({
                 status: "error",
                 message: "Registration has not started yet.",
             });
         };
 
-        if (currentDate > eventExist.registrationDates.endingDate) {
+        if (currentDate > checkEndingDate) {
             return res.status(400).json({
                 status: "error",
                 message: "Registration is closed.",

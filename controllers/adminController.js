@@ -266,8 +266,10 @@ export const eventSetting = async ( req , res , next ) => {
             });
         };
 
-        event.registrationDates.startingDate = saveStartingDate;
-        event.registrationDates.endingDate = saveEndingDate;
+        event.registrationDates = {
+            startingDate: saveStartingDate,
+            endingDate: saveEndingDate
+        };
         event.isOpen = true;
 
         await event.save();
