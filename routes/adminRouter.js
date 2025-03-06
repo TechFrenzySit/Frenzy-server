@@ -18,5 +18,5 @@ adminRouter.get("/event/all" , getAllEvents );
 adminRouter.post("/event/setting" , eventSetting );
 adminRouter.patch("/event/setting/edit" , editEventSetting );
 
-adminRouter.get("/event/participants/team/all" , getAllTeamParticipants );
+adminRouter.get("/event/participants/team/:eventId" , getAllTeamParticipants );
 // adminRouter.get("/event/participants/solo/all" , getAllTeamParticipants );
