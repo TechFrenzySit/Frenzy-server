@@ -409,7 +409,7 @@ export const uploadConfirmationMailTemplate = async ( req , res , next ) => {
     };
 };
 
-export const sendMailToApplicant = async ( req , res , next ) => {
+export const sendMailToApplicantTeam = async ( req , res , next ) => {
     try {
 
         const { id } = req.params;
@@ -458,6 +458,32 @@ export const getAllSoloParticipants = async ( req , res , next ) => {
             status: "success",
             message: "All participants fetched successfully.",
             data: allParticipants,
+        });
+
+    } catch (error) {
+        next(error);
+    };
+};
+
+export const deleteSoloApplicant = async ( req , res , next ) => {
+    try {
+
+        const { regId } = req.params;
+
+        const applicant = await soloRegistrationModel.findById(regId);
+
+        if (!applicant) {
+            return res.status(400).json({
+                status: "error",
+                message: "Applicant not found.",
+            });
+        };
+
+        await applicant.deleteOne();
+
+        return res.status(200).json({
+            status: "success",
+            message: "Applicant deleted successfully.",
         });
 
     } catch (error) {

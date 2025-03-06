@@ -6,8 +6,8 @@ export default adminRouter;
 import { deleteNewsLetter , getNewsLetter , newEvent ,
     getAllEvents , getAllTeamParticipants , uploadNewsletterTemplate ,
     sendMailToAll , eventSetting , editEventSetting , deleteTeamApplicant ,
-    sendMailToApplicant , uploadConfirmationMailTemplate , getAllSoloParticipants ,
- } from "../controllers/adminController.js";
+    sendMailToApplicantTeam , uploadConfirmationMailTemplate , getAllSoloParticipants ,
+    deleteSoloApplicant , } from "../controllers/adminController.js";
 
 adminRouter.delete("/news-letter/remove" , deleteNewsLetter );
 adminRouter.get("/news-letter/all" , getNewsLetter );
@@ -22,7 +22,9 @@ adminRouter.patch("/event/setting/edit" , editEventSetting );
 
 adminRouter.get("/event/participants/team/:eventId" , getAllTeamParticipants );
 adminRouter.delete("/event/participants/team/applicant/:regId" , deleteTeamApplicant );
-adminRouter.post("/event/participants/team/applicant/mail/template" , uploadConfirmationMailTemplate );
-adminRouter.post("/event/participants/team/applicant/mail/:id" , sendMailToApplicant );
+adminRouter.post("/event/participants/applicant/mail/template" , uploadConfirmationMailTemplate );
+adminRouter.post("/event/participants/team/applicant/mail/:id" , sendMailToApplicantTeam );
 
 adminRouter.get("/event/participants/solo/:eventId" , getAllSoloParticipants );
+adminRouter.delete("/event/participants/solo/applicant/:regId" , deleteSoloApplicant );
+adminRouter.post("/event/participants/solo/applicant/mail/:id" , sendMailToApplicantSolo );
