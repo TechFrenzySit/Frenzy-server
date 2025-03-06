@@ -490,3 +490,40 @@ export const deleteSoloApplicant = async ( req , res , next ) => {
         next(error);
     };
 };
+
+export const sendMailToApplicantSolo = async ( req , res , next ) => {
+    try {
+        
+        const { id } = req.params;
+
+        const applicant = await soloRegistrationModel
+            .findById(id)
+            .select("email")
+            .populate("event")
+            .exec();
+
+        if (!applicant) {
+            return res.status(400).json({
+                status: "error",
+                message: "Applicant not found.",
+            });
+        }
+
+        if(!applicant.event.isOpen) {
+            return res.status(400).json({
+                status: "error",
+                message: "Event is closed.",
+            });
+        };
+
+        // send mail
+
+        return res.status(200).json({
+            status: "success",
+            message: "Mail sent successfully.",
+            data: applicant,
+        });
+    } catch (error) {
+        next(error);
+    };
+};
