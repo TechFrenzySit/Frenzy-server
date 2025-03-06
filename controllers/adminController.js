@@ -350,3 +350,29 @@ export const editEventSetting = async ( req , res , next ) => {
         next(error);
     };
 };
+
+export const deleteTeamApplicant = async ( req , res , next ) => {
+    try {
+
+        const { regId } = req.params;
+
+        const applicant = await teamRegistrationModel.findById(regId);
+
+        if (!applicant) {
+            return res.status(400).json({
+                status: "error",
+                message: "Applicant not found.",
+            });
+        };
+
+        await applicant.deleteOne();
+
+        return res.status(200).json({
+            status: "success",
+            message: "Applicant deleted successfully.",
+        });
+
+    } catch (error) {
+        next(error);
+    };
+};
