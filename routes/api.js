@@ -3,7 +3,7 @@ const apiRouter = express.Router();
 export default apiRouter;
 
 import adminRouter from "./adminRouter.js";
-import { registrationTeam , registrationSolo } from "../controllers/registrationController.js";
+import { registrationTeam , registrationSolo , getAllPastEvents } from "../controllers/registrationController.js";
 
 apiRouter.get("/", ( req , res , next ) => {
     return res.status(200).json({
@@ -14,4 +14,5 @@ apiRouter.get("/", ( req , res , next ) => {
 
 apiRouter.post("/registration/team" , registrationTeam );
 apiRouter.post("/registration/solo" , registrationSolo );
+apiRouter.get("/past-events" , getAllPastEvents );
 apiRouter.use("/admin" , adminRouter );

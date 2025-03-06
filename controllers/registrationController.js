@@ -145,3 +145,19 @@ export const newsLetter = async ( req , res , next ) => {
 export const registrationSolo = async ( req , res , next ) => {
     
 };
+
+export const getAllPastEvents = async ( req , res , next ) => {
+    try {
+        const currentDate = new Date();
+        const pastEvents = await events.find();
+
+        return res.status(200).json({
+            status: "success",
+            total: pastEvents.length,
+            data: pastEvents,
+        });
+        
+    } catch (error) {
+        next();
+    };
+};
