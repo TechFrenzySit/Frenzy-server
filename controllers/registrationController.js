@@ -20,6 +20,7 @@ export const registrationTeam = async ( req , res , next ) => {
 
         const eventExist = await events.findOne({
             _id: eventId,
+            type: "team",
         });
 
         if (!eventExist) {
