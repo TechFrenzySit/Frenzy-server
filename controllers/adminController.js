@@ -466,6 +466,10 @@ export const sendMailToApplicantTeam = async ( req , res , next ) => {
             });
         };
 
+        
+        applicant.isSelected = true;
+        await applicant.save();
+
         return res.status(200).json({
             status: "success",
             message: "Mail sent successfully.",
@@ -557,6 +561,12 @@ export const sendMailToApplicantSolo = async ( req , res , next ) => {
             subject,
             html,
         };
+
+        // isSelected must be true
+        
+        applicant.isSelected = true;
+        await applicant.save();
+
 
         const isSent = await sendMail(mailOptions);
 

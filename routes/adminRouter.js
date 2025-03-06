@@ -7,7 +7,7 @@ import { deleteNewsLetter , getNewsLetter , newEvent ,
     getAllEvents , getAllTeamParticipants , uploadNewsletterTemplate ,
     sendMailToAll , eventSetting , editEventSetting , deleteTeamApplicant ,
     sendMailToApplicantTeam , uploadConfirmationMailTemplate , getAllSoloParticipants ,
-    deleteSoloApplicant , } from "../controllers/adminController.js";
+    deleteSoloApplicant , sendMailToApplicantSolo } from "../controllers/adminController.js";
 
 adminRouter.delete("/news-letter/remove" , deleteNewsLetter );
 adminRouter.get("/news-letter/all" , getNewsLetter );

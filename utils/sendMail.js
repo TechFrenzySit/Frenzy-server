@@ -1,4 +1,4 @@
-import transporter from '../config/emailSetup.js';
+import { transporter } from '../config/emailSetup.js';
 
 export const sendMail = async (mailOptions) => {
     try {
