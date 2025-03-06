@@ -48,7 +48,7 @@ export const registrationTeam = async ( req , res , next ) => {
 
 
         const teamNameExists1 = await teamRegistrationModel.find({
-            email: validatedData.data.email,
+            "teamLeader.email": validatedData.data.teamLeader.email,
             event: eventId,
         });
 
@@ -75,11 +75,11 @@ export const registrationTeam = async ( req , res , next ) => {
 
         await registration.save();
         
-        const checkMail = await mails.exists({ email: validatedData.data.email });
+        const checkMail = await mails.exists({ email: validatedData.teamLeader.email });
 
         if(!checkMail) {
             const n = new mails({
-                email: validatedData.data.email,
+                email: validatedData.data.teamLeader.email,
             });
             await n.save();
         };

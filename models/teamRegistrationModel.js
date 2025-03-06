@@ -25,6 +25,15 @@ const registrationSchema = new mongoose.Schema({
             type: String,
             required: true,
         },
+        email: {
+            type: String,
+            required: true,
+        },
+        mobileNumber: {
+            type: String,
+            required: true,
+            unique: true,
+        },
         department: {
             type: String,
             required: false,
@@ -37,11 +46,6 @@ const registrationSchema = new mongoose.Schema({
             type: String,
             required: false,
         },
-    },
-    email: {
-        type: String,
-        required: true,
-        unique: true,
     },
     isMailSent: {
         type: Boolean,

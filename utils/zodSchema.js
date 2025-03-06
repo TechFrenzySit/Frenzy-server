@@ -7,11 +7,12 @@ export const teamRegistrationSchema = z.object({
     topicDescription: z.string().min(3).max(500),
     teamLeader: z.object({
         name: z.string().min(3).max(80),
+        email: z.string().email().transform((val) => val.toLowerCase()),
+        mobileNumber: z.string().min(10).max(10),
         department: z.string().min(2).max(50).optional(),
         year: z.string().min(1).max(4).optional(),
         githubLink: z.string().url().optional(),
     }),
-    email: z.string().email().transform((val) => val.toLowerCase()),
     numberOfMembers: z.string(),
     teamMembers: z.array(z.object({
         name: z.string().min(3).max(80),
