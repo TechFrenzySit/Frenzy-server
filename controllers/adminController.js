@@ -377,6 +377,37 @@ export const deleteTeamApplicant = async ( req , res , next ) => {
     };
 };
 
+export const uploadConfirmationMailTemplate = async ( req , res , next ) => {
+    try {
+
+        const { subject , html } = req.body;
+
+        if(!subject || !html) {
+            return res.status(400).json({
+                status: "error",
+                message: "Subject and html is required.",
+            });
+        };
+
+        const jsonTemplate = {
+            subject,
+            html,
+        };
+
+        const templatePath = path.join(process.cwd(), "mailTemplates", "confirmationMail.json");
+
+        fs.writeFileSync(templatePath, JSON.stringify(jsonTemplate));
+
+        return res.status(200).json({
+            status: "success",
+            message: "Mail format uploaded successfully.",
+        });
+
+    } catch (error) {
+        next(error);
+    };
+};
+
 export const sendMailToApplicant = async ( req , res , next ) => {
     try {
 
