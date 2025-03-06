@@ -2,6 +2,7 @@ import mails from "../models/mails.js";
 import events from "../models/events.js";
 import teamRegistrationModel from "../models/teamRegistrationModel.js";
 import soloRegistrationModel from "../models/soloRegistrationModel.js";
+import { sendMail } from "../utils/sendMail.js";
 import fs from "fs";
 import path from "path";
 
@@ -117,11 +118,21 @@ export const sendMailToAll = async ( req , res , next ) => {
         const mailArray = allEmails.map((mail) => mail.email);
 
         const mailOptions = {
-            from: `Notification <{process.env.EMAIL}>`,
-            to: mailArray,
+            from: `Notification <${process.env.EMAIL}>`,
+            bcc: mailArray.join(","),
             subject,
             html,
         };
+
+        const isSent = await sendMail(mailOptions);
+
+        if(!isSent) {
+            return res.status(400).json({
+                status: "error",
+                message: "Error in sending mails.",
+            });
+        };
+
 
         return res.status(200).json({
             status: "success",
@@ -434,7 +445,26 @@ export const sendMailToApplicantTeam = async ( req , res , next ) => {
             });
         };
 
-        // send mail
+        const templatePath = path.join(process.cwd(), "mailTemplates", "confirmationMail.json");
+        const templateData = fs.readFileSync(templatePath, "utf-8");
+        const { subject , html } = JSON.parse(templateData);
+
+        
+        const mailOptions = {
+            from: `Notification <${process.env.EMAIL}>`,
+            to: applicant.teamLeader.email,
+            subject,
+            html,
+        };
+
+        const isSent = await sendMail(mailOptions);
+
+        if(!isSent) {
+            return res.status(400).json({
+                status: "error",
+                message: "Error in sending mails.",
+            });
+        };
 
         return res.status(200).json({
             status: "success",
@@ -515,8 +545,27 @@ export const sendMailToApplicantSolo = async ( req , res , next ) => {
                 message: "Event is closed.",
             });
         };
+        
+        const templatePath = path.join(process.cwd(), "mailTemplates", "confirmationMail.json");
+        const templateData = fs.readFileSync(templatePath, "utf-8");
+        const { subject , html } = JSON.parse(templateData);
 
-        // send mail
+
+        const mailOptions = {
+            from: `Notification <${process.env.EMAIL}>`,
+            to: applicant.email,
+            subject,
+            html,
+        };
+
+        const isSent = await sendMail(mailOptions);
+
+        if(!isSent) {
+            return res.status(400).json({
+                status: "error",
+                message: "Error in sending mails.",
+            });
+        };
 
         return res.status(200).json({
             status: "success",
