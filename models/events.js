@@ -21,9 +21,21 @@ const eventSchema = new mongoose.Schema({
             required: true,
         },
     },
+    registration: {
+        startingDate: {
+            type: Date,
+            required: false,
+            default: null,
+        },
+        endingDate: {
+            type: Date,
+            required: false,
+            default: null,
+        },
+    },
     isOpen: {
         type: Boolean,
-        default: true,
+        default: false,
     },
     image: {
         default: null,

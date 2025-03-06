@@ -147,7 +147,7 @@ export const newEvent = async ( req , res , next ) => {
 
         const newEv = new events({
             ...validatedData.data,
-            isOpenL: true,
+            isOpenL: false,
         });
 
         await newEv.save();
@@ -188,6 +188,42 @@ export const getAllTeamParticipants = async ( req , res , next ) => {
             status: "success",
             message: "All participants fetched successfully.",
             data: allParticipants,
+        });
+
+    } catch (error) {
+        next(error);
+    };
+};
+
+export const eventSetting = async ( req , res , next ) => {
+    try {
+
+        const { eventId } = req.body;
+
+        const {
+            startingDate,
+            endingDate
+        } = req.body;
+
+        const event = await events.findById(eventId);
+
+        if (!event) {
+            return res.status(400).json({
+                status: "error",
+                message: "Event not found.",
+            });
+        };
+
+        event.registration.startingDate = Date(startingDate);
+        event.registration.endingDate = Date(endingDate);
+        event.isOpen = true;
+
+        await event.save();
+
+        return res.status(200).json({
+            status: "success",
+            message: "Event setting fetched successfully.",
+            data: event,
         });
 
     } catch (error) {
