@@ -156,8 +156,34 @@ export const getAllPastEvents = async ( req , res , next ) => {
             total: pastEvents.length,
             data: pastEvents,
         });
-        
+
     } catch (error) {
         next();
+    };
+};
+
+export const getCurrentEvent = async ( req , res , next ) => {
+    try {
+
+        const currentDate = new Date();
+        const currentEvent = await events.findOne({
+            "timerDates.startingDate": { $lte: currentDate },
+            "timerDates.endingDate": { $gte: currentDate },
+        });
+
+        if (!currentEvent) {
+            return res.status(400).json({
+                status: "error",
+                message: "No event is currently running.",
+            });
+        };
+
+        return res.status(200).json({
+            status: "success",
+            data: currentEvent,
+        });
+
+    } catch (error) {
+        next(error);
     };
 };
