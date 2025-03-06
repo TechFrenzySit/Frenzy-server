@@ -272,7 +272,7 @@ export const eventSetting = async ( req , res , next ) => {
 
         return res.status(200).json({
             status: "success",
-            message: "Event setting fetched successfully.",
+            message: "Setting changed successfully.",
             data: event,
         });
 
@@ -286,6 +286,12 @@ export const editEventSetting = async ( req , res , next ) => {
 
         const { eventId } = req.body;
 
+        const {
+            isTimer = false,
+            startingDate,
+            endingDate
+        } = req.body;
+
         const event = await events.findById(eventId);
 
         if (!event) {
@@ -295,10 +301,44 @@ export const editEventSetting = async ( req , res , next ) => {
             });
         };
 
+        const currentDate = new Date();
+        const saveStartingDate = new Date(startingDate);
+        const saveEndingDate = new Date(endingDate);
+
+        if(saveStartingDate > saveEndingDate) {
+            return res.status(400).json({
+                status: "error",
+                message: "Starting date should be less than ending date.",
+            });
+        };
+
+        if(saveStartingDate < currentDate) {
+            return res.status(400).json({
+                status: "error",
+                message: "Starting date should be greater than current date.",
+            });
+        };
+
+        if(saveEndingDate < currentDate) {
+            return res.status(400).json({
+                status: "error",
+                message: "Ending date should be greater than current date.",
+            });
+        };
+
+        if(isTimer) {
+            event.timerDates.startingDate = saveStartingDate;
+            event.timerDates.endingDate = saveEndingDate;
+        } else {
+            event.registrationDates.startingDate = saveStartingDate;
+            event.registrationDates.endingDate = saveEndingDate;
+        };
+
+        await event.save();
 
         return res.status(200).json({
             status: "success",
-            message: "Event setting fetched successfully.",
+            message: "Edited successfully.",
             data: event,
         });
 
