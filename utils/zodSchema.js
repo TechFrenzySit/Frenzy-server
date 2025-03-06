@@ -21,6 +21,18 @@ export const teamRegistrationSchema = z.object({
     })),
 });
 
+export const soloRegistrationSchema = z.object({
+    eventId: z.string(),
+    name: z.string().min(3).max(80),
+    email: z.string().email().transform((val) => val.toLowerCase()),
+    mobileNumber: z.string().min(10).max(10),
+    department: z.string().min(2).max(50),
+    year: z.string().min(1).max(4),
+    college: z.string().min(3).max(80),
+    githubLink: z.string().url().optional(),
+});
+    
+
 export const emailSchema = z.object({
     email: z.string().email().transform((val) => val.toLowerCase()),
 });
