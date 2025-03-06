@@ -147,7 +147,7 @@ export const newEvent = async ( req , res , next ) => {
 
         const newEv = new events({
             ...validatedData.data,
-            isOpenL: false,
+            isOpen: false,
         });
 
         await newEv.save();
@@ -244,7 +244,7 @@ export const editEventSetting = async ( req , res , next ) => {
                 message: "Event not found.",
             });
         };
-        
+
 
         return res.status(200).json({
             status: "success",

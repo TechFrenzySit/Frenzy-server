@@ -21,6 +21,11 @@ const eventSchema = new mongoose.Schema({
             required: true,
         },
     },
+    type: {
+        type: String,
+        required: true,
+        enum: ["solo", "team"],
+    },
     registration: {
         startingDate: {
             type: Date,
