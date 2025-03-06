@@ -75,7 +75,7 @@ export const registrationTeam = async ( req , res , next ) => {
 
         await registration.save();
         
-        const checkMail = await mails.exists({ email: validatedData.teamLeader.email });
+        const checkMail = await mails.exists({ email: validatedData.data.teamLeader.email });
 
         if(!checkMail) {
             const n = new mails({

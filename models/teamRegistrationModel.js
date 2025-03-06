@@ -32,7 +32,6 @@ const registrationSchema = new mongoose.Schema({
         mobileNumber: {
             type: String,
             required: true,
-            unique: true,
         },
         department: {
             type: String,
