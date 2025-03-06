@@ -6,7 +6,8 @@ export default adminRouter;
 import { deleteNewsLetter , getNewsLetter , newEvent ,
     getAllEvents , getAllTeamParticipants , uploadNewsletterTemplate ,
     sendMailToAll , eventSetting , editEventSetting , deleteTeamApplicant ,
-    sendMailToApplicant , uploadConfirmationMailTemplate } from "../controllers/adminController.js";
+    sendMailToApplicant , uploadConfirmationMailTemplate , getAllSoloParticipants ,
+ } from "../controllers/adminController.js";
 
 adminRouter.delete("/news-letter/remove" , deleteNewsLetter );
 adminRouter.get("/news-letter/all" , getNewsLetter );
@@ -24,4 +25,4 @@ adminRouter.delete("/event/participants/team/applicant/:regId" , deleteTeamAppli
 adminRouter.post("/event/participants/team/applicant/mail/template" , uploadConfirmationMailTemplate );
 adminRouter.post("/event/participants/team/applicant/mail/:id" , sendMailToApplicant );
 
-// adminRouter.get("/event/participants/solo/all" , getAllTeamParticipants );
+adminRouter.get("/event/participants/solo/:eventId" , getAllSoloParticipants );

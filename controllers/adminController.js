@@ -1,6 +1,7 @@
 import mails from "../models/mails.js";
 import events from "../models/events.js";
 import teamRegistrationModel from "../models/teamRegistrationModel.js";
+import soloRegistrationModel from "../models/soloRegistrationModel.js";
 import fs from "fs";
 import path from "path";
 
@@ -443,5 +444,23 @@ export const sendMailToApplicant = async ( req , res , next ) => {
 
     } catch (error) {
         next();
+    };
+};
+
+export const getAllSoloParticipants = async ( req , res , next ) => {
+    try {
+
+        const allParticipants = await soloRegistrationModel.find({
+            event: req.params.eventId,
+        });
+
+        return res.status(200).json({
+            status: "success",
+            message: "All participants fetched successfully.",
+            data: allParticipants,
+        });
+
+    } catch (error) {
+        next(error);
     };
 };
