@@ -207,7 +207,9 @@ export const getAllEvents = async ( req , res , next ) => {
 export const getAllTeamParticipants = async ( req , res , next ) => {
     try {
 
-        const allParticipants = await teamRegistrationModel.find({});
+        const allParticipants = await teamRegistrationModel.find({
+            event: req.body.eventId,
+        });
 
         return res.status(200).json({
             status: "success",
