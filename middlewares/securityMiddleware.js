@@ -5,6 +5,7 @@ export default (app) => {
     app.use(cors({
         origin: [
             "http://localhost",
+            "http://localhost:3000",
         ],
         credentials: true,
         optionsSuccessStatus: 200,

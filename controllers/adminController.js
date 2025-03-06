@@ -230,3 +230,29 @@ export const eventSetting = async ( req , res , next ) => {
         next(error);
     };
 };
+
+export const editEventSetting = async ( req , res , next ) => {
+    try {
+
+        const { eventId } = req.body;
+
+        const event = await events.findById(eventId);
+
+        if (!event) {
+            return res.status(400).json({
+                status: "error",
+                message: "Event not found.",
+            });
+        };
+        
+
+        return res.status(200).json({
+            status: "success",
+            message: "Event setting fetched successfully.",
+            data: event,
+        });
+
+    } catch (error) {
+        next(error);
+    };
+};
