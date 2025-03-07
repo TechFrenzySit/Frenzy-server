@@ -12,7 +12,7 @@ const adminSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    createdAT: {
+    createdAt: {
         type: Date,
         default: Date.now,
     },
@@ -40,7 +40,7 @@ const adminSchema = new mongoose.Schema({
             default: null,
         }
     },
-    updatedAT: {
+    updatedAt: {
         type: Date,
         default: Date.now,
     },

@@ -175,3 +175,63 @@ export const verifyOtp = async ( req , res , next ) => {
         next(error);
     };
 };
+
+export const createAdmin = async ( req , res , next ) => {
+    try {
+
+        const email = req.body.email;
+
+        if( !email ) {
+            return res.status(400).json({
+                status: "error",
+                message: "Please provide email."
+            });
+        };
+
+        const adminData = await admin.findOne({ email });
+
+        if( adminData ) {
+            return res.status(400).json({
+                status: "error",
+                message: "Admin already exists."
+            });
+        };
+
+        // generate a 8 character password
+
+        const unhashedPassword = Math.random().toString(36).slice(-8);
+
+        const newAdmin = new admin({
+            email: email,
+            password: await bcrypt.hash(unhashedPassword + "|" + process.env.SERVER_SIGNATURE, 19),
+        });
+
+        // send mail to the admin with the password
+
+        const mailOptions = {
+            from: `Admin <${process.env.ADMIN_EMAIL}>`,
+            to: email,
+            subject: "Congratulations | Admin Password",
+            html: `Contratulations!<br> Your you are now a new admin of Tech-Frenzy <br>Your password is ${unhashedPassword}.`
+        };
+
+        const isMailSent = await sendMail(mailOptions);
+
+        if( !isMailSent ) {
+            return res.status(400).json({
+                status: "error",
+                message: "Unable to send mail."
+            });
+        };
+
+        await newAdmin.save();
+
+        return res.status(200).json({
+            status: "success",
+            message: "Admin created successfully."
+        });
+
+    } catch (error) {
+        next(error);
+    };
+};
