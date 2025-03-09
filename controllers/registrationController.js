@@ -252,8 +252,7 @@ export const getCurrentEvent = async ( req , res , next ) => {
 
         const currentDate = new Date();
         const currentEvent = await events.findOne({
-            "timerDates.startingDate": { $lte: currentDate },
-            "timerDates.endingDate": { $gte: currentDate },
+            isOpen: true,
         });
 
         if (!currentEvent) {
