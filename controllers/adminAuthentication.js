@@ -17,12 +17,8 @@ export const adminAuthentication = async ( req , res , next ) => {
         };
 
 
-        console.log(2);
-
         let adminData = await admin.findOne({ email });
-        console.log(33);
 
-        console.log(adminData);
         const token = crypto.randomBytes(32).toString("hex");
         const otp = Math.floor(100000 + Math.random() * 900000);
         const otpExpire = Date.now() + 10 * 60 * 1000; // 10 minutes
@@ -30,8 +26,6 @@ export const adminAuthentication = async ( req , res , next ) => {
         if ( !adminData ) {
             
             if(process.env.ADMIN_EMAIL === email && process.env.ADMIN_PASSWORD === password) {
-                
-                console.log("A");
                 
                 const jsonAdmin = {
                     email: email,
@@ -42,9 +36,7 @@ export const adminAuthentication = async ( req , res , next ) => {
                         otpExpire,
                     }
                 }
-                console.log(jsonAdmin);
                 adminData = new admin(jsonAdmin);
-                console.log("C");
                 
             }else{
                 return res.status(400).json({
@@ -70,8 +62,6 @@ export const adminAuthentication = async ( req , res , next ) => {
             };
         };
 
-        console.log("B");
-
         await adminData.save();
 
         const mailOptions = {
@@ -81,9 +71,7 @@ export const adminAuthentication = async ( req , res , next ) => {
             text: `Your OTP is ${otp}.`
         };
 
-        console.log(1);
         const isMailSent = await sendMail(mailOptions);
-        console.log(11);
 
         if( !isMailSent ) {
             return res.status(400).json({

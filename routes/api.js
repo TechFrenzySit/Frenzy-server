@@ -22,5 +22,5 @@ apiRouter.get("/past-events" , getAllPastEvents );
 apiRouter.get("/current-event" , getCurrentEvent );
 apiRouter.post("/admin/auth" , adminAuthentication );
 apiRouter.post("/admin/verify-otp" , verifyOtp );
-apiRouter.post("/admin/create" , createAdmin );
+apiRouter.post("/admin/create" , verifyAdmin , createAdmin );
 apiRouter.use("/admin" , verifyAdmin , adminRouter );
