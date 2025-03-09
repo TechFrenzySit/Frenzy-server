@@ -271,3 +271,26 @@ export const getCurrentEvent = async ( req , res , next ) => {
         next(error);
     };
 };
+
+export const getAllImagesByEvent = async ( req , res , next ) => {
+    try {
+
+        const allEvents = await events.find().select("images timerDates title description");
+
+        allEvents.map((event) => {
+            event.images = event.images.map((image) => {
+                return `${process.env.DOMAIN}${image}`;
+            });
+            return event;
+        });
+
+        return res.status(200).json({
+            status: "success",
+            total: allEvents.length,
+            data: allEvents,
+        });
+
+    } catch (error) {
+        next(error);
+    };
+};
