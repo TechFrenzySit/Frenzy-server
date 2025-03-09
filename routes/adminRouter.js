@@ -3,11 +3,14 @@ import express from "express";
 const adminRouter = express.Router();
 export default adminRouter;
 
+import uploadMiddleware from "../utils/uploadImage.js";
+
 import { deleteNewsLetter , getNewsLetter , newEvent ,
     getAllEvents , getAllTeamParticipants , uploadNewsletterTemplate ,
     sendMailToAll , eventSetting , editEventSetting , deleteTeamApplicant ,
     sendMailToApplicantTeam , uploadConfirmationMailTemplate , getAllSoloParticipants ,
-    deleteSoloApplicant , sendMailToApplicantSolo } from "../controllers/adminController.js";
+    deleteSoloApplicant , sendMailToApplicantSolo , uploadImageToEvent } from "../controllers/adminController.js";
+
 
 adminRouter.delete("/news-letter/remove" , deleteNewsLetter );
 adminRouter.get("/news-letter/all" , getNewsLetter );
@@ -28,3 +31,6 @@ adminRouter.post("/event/participants/team/applicant/mail/:id" , sendMailToAppli
 adminRouter.get("/event/participants/solo/:eventId" , getAllSoloParticipants );
 adminRouter.delete("/event/participants/solo/applicant/:regId" , deleteSoloApplicant );
 adminRouter.post("/event/participants/solo/applicant/mail/:id" , sendMailToApplicantSolo );
+
+
+adminRouter.post("/event/image/:id" , uploadMiddleware , uploadImageToEvent );

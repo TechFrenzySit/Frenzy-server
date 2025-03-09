@@ -18,7 +18,7 @@ app.use(accessHandler);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser(process.env.COOKIE_SECRET));
-app.use("/", express.static("public"));
+app.use("/files", express.static("public"));
 
 app.use("/api", api );
 

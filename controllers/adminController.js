@@ -586,3 +586,46 @@ export const sendMailToApplicantSolo = async ( req , res , next ) => {
         next(error);
     };
 };
+
+export const uploadImageToEvent = async ( req , res , next ) => {
+    try {
+
+        const { id } = req.params;
+
+        const event = await events.findById(id);
+
+        if (!event) {
+            return res.status(400).json({
+                status: "error",
+                message: "Event not found.",
+            });
+        };
+
+        if(!req.files) {
+            return res.status(400).json({
+                status: "error",
+                message: "Image is required.",
+            });
+        };
+        
+        const images = req.files.image.map((file) => `/files/images/${file.filename}`);
+
+        const updateEvent = await events.findByIdAndUpdate(id, {
+            images: [...event.images, ...images],
+        }, {
+            new: true,
+        });
+
+        const domain = process.env.DOMAIN;
+
+        return res.status(200).json({
+            status: "success",
+            message: "Image uploaded successfully.",
+            eventId: id,
+            urls: images.map((image) => `${domain}${image}`),
+        });
+
+    } catch (error) {
+        next(error);
+    };
+};

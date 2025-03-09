@@ -42,10 +42,11 @@ const eventSchema = new mongoose.Schema({
         type: Boolean,
         default: false,
     },
-    image: {
-        default: null,
-        type: String,
-    },
+    images: [
+        {
+            type: String,
+        }
+    ],
     updateAt: {
         type: Date,
         default: Date.now,
