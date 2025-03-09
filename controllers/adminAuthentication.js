@@ -16,27 +16,35 @@ export const adminAuthentication = async ( req , res , next ) => {
             });
         };
 
-        let adminData = await admin.findOne({ email });
 
+        console.log(2);
+
+        let adminData = await admin.findOne({ email });
+        console.log(33);
+
+        console.log(adminData);
         const token = crypto.randomBytes(32).toString("hex");
         const otp = Math.floor(100000 + Math.random() * 900000);
         const otpExpire = Date.now() + 10 * 60 * 1000; // 10 minutes
-
+        
         if ( !adminData ) {
             
             if(process.env.ADMIN_EMAIL === email && process.env.ADMIN_PASSWORD === password) {
                 
-                // new admin 
-                adminData = new admin({
+                console.log("A");
+                
+                const jsonAdmin = {
                     email: email,
-                    password: await bcrypt.hash(password + "|" + process.env.SERVER_SIGNATURE, 19),
+                    password: await bcrypt.hash(password + "|" + process.env.SERVER_SIGNATURE, 8),
                     authentication: {
                         token,
                         otp,
                         otpExpire,
                     }
-                });
-                await adminData.save();
+                }
+                console.log(jsonAdmin);
+                adminData = new admin(jsonAdmin);
+                console.log("C");
                 
             }else{
                 return res.status(400).json({
@@ -62,9 +70,10 @@ export const adminAuthentication = async ( req , res , next ) => {
             };
         };
 
+        console.log("B");
+
         await adminData.save();
 
-        
         const mailOptions = {
             from: `Admin <${process.env.ADMIN_EMAIL}>`,
             to: email,
@@ -72,7 +81,9 @@ export const adminAuthentication = async ( req , res , next ) => {
             text: `Your OTP is ${otp}.`
         };
 
+        console.log(1);
         const isMailSent = await sendMail(mailOptions);
+        console.log(11);
 
         if( !isMailSent ) {
             return res.status(400).json({
@@ -89,7 +100,7 @@ export const adminAuthentication = async ( req , res , next ) => {
         return res.status(200).json({
             status: "success",
             message: "OTP sent to your email.",
-            otpToken: "Bearer "+newToken,
+            otpToken: newToken,
         });
 
     } catch (error) {
@@ -168,7 +179,7 @@ export const verifyOtp = async ( req , res , next ) => {
         return res.status(200).json({
             status: "success",
             message: "Logged in successfully.",
-            token: "Bearer "+newToken
+            token: newToken
         });
 
     } catch (error) {
@@ -203,7 +214,7 @@ export const createAdmin = async ( req , res , next ) => {
 
         const newAdmin = new admin({
             email: email,
-            password: await bcrypt.hash(unhashedPassword + "|" + process.env.SERVER_SIGNATURE, 19),
+            password: await bcrypt.hash(unhashedPassword + "|" + process.env.SERVER_SIGNATURE, 8),
         });
 
         // send mail to the admin with the password

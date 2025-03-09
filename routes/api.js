@@ -4,7 +4,7 @@ export default apiRouter;
 
 import adminRouter from "./adminRouter.js";
 import { registrationTeam , registrationSolo , getAllPastEvents ,
-    getCurrentEvent } from "../controllers/registrationController.js";
+    getCurrentEvent , newsLetter } from "../controllers/registrationController.js";
 import { adminAuthentication , verifyOtp , createAdmin } from "../controllers/adminAuthentication.js";
 import { verifyAdmin } from "../middlewares/verifyAdmin.js";
 
@@ -17,6 +17,7 @@ apiRouter.get("/", ( req , res , next ) => {
 
 apiRouter.post("/registration/team" , registrationTeam );
 apiRouter.post("/registration/solo" , registrationSolo );
+apiRouter.post("/news-letter" , newsLetter );
 apiRouter.get("/past-events" , getAllPastEvents );
 apiRouter.get("/current-event" , getCurrentEvent );
 apiRouter.post("/admin/auth" , adminAuthentication );
