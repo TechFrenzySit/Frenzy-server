@@ -1,5 +1,7 @@
 import cors from "cors";
 import helmet from "helmet";
+import dotenv from "dotenv";
+dotenv.config();
 
 export default (app) => {
     app.use(cors({
@@ -15,6 +17,8 @@ export default (app) => {
         preflightContinue: false,
     }));
 
+    /*
+    
     app.use(helmet({
         contentSecurityPolicy: {
             directives: {
@@ -22,7 +26,7 @@ export default (app) => {
                 scriptSrc: ["'self'", "'unsafe-inline'"],
                 styleSrc: ["'self'", "'unsafe-inline'"],
                 scriptSrcAttr: ["'self'", "'unsafe-inline'"],
-                imgSrc: ["'self'", "data:"],
+                imgSrc: ["'self'", "data:", process.env.DOMAIN ],
             }
         },
         frameguard: { action: "deny" },
@@ -36,4 +40,6 @@ export default (app) => {
         hidePoweredBy: true,
         referrerPolicy: { policy: "no-referrer" }
     }));
+
+    */
 };
