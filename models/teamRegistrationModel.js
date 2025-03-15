@@ -74,6 +74,10 @@ const registrationSchema = new mongoose.Schema({
                 type: String,
                 required: false
             },
+            githubLink: {
+                type: String,
+                required: false,
+            },
         },
     ],
     event: {

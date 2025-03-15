@@ -203,7 +203,9 @@ export const newEvent = async ( req , res , next ) => {
 export const getAllEvents = async ( req , res , next ) => {
     try {
 
-        const allEvents = await events.find({});
+        const allEvents = await events.find({}).sort(
+            { createdAt: -1 }
+        );
 
         return res.status(200).json({
             status: "success",
