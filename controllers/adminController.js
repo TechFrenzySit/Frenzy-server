@@ -556,7 +556,7 @@ export const sendMailToApplicantSolo = async ( req , res , next ) => {
 
 
         const mailOptions = {
-            from: `Notification <${process.env.EMAIL}>`,
+            from: `Congratulations <${process.env.EMAIL}>`,
             to: applicant.email,
             subject,
             html,
