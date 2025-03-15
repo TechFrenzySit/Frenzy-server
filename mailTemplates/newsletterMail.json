@@ -1,1 +1,1 @@
-{"subject":"This is subject","html":"the whole html will be here in text formate excluding the next line \n replace it with ' ' using regex"}
+{"subject":"This is a test newsletter","html":"<h1>Newsletter </h1> <p>This is our first Newsletter ever!</p>"}

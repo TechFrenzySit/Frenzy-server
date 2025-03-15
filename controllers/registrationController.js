@@ -251,9 +251,30 @@ export const getCurrentEvent = async ( req , res , next ) => {
     try {
 
         const currentDate = new Date();
-        const currentEvent = await events.findOne({
-            isOpen: true,
-        });
+        let currentEvent;
+
+        const count = await events.countDocuments({});
+        
+        while (count > 0) {
+
+            currentEvent = await events.findOne({
+                isOpen: true,
+            });
+
+            if (!currentEvent) {
+                break;
+            };
+
+            // ending timer date
+            const endingTimerDate = new Date(currentEvent.timerDates.endingDate);
+            if (currentDate > endingTimerDate) {
+                currentEvent.isOpen = false;
+                await currentEvent.save();
+                count--;
+                continue;
+            };
+            break;
+        };
 
         if (!currentEvent) {
             return res.status(400).json({
