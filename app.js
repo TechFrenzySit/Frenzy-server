@@ -14,6 +14,7 @@ const app = express();
 
 await dbConnect();
 securityMiddleware(app);
+app.set("trust proxy", true);
 app.use(accessHandler);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));

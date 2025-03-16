@@ -3,6 +3,11 @@ import fsPromises from "fs/promises";
 import path from "path";
 import morgan from "morgan";
 
+morgan.token("remote-addr", (req) => {
+    return req.headers["x-forwarded-for"]?.split(",")[0].trim() || 
+           req.headers["x-real-ip"]
+});
+
 export default (req, res, next) => {
     const folderPath = path.join(process.cwd(), "logs");
     const filePath = path.join(folderPath, "access.log");
