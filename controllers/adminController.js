@@ -118,7 +118,7 @@ export const sendMailToAll = async ( req , res , next ) => {
         const mailArray = allEmails.map((mail) => mail.email);
 
         const mailOptions = {
-            from: `Notification <${process.env.EMAIL}>`,
+            from: `Notification <${process.env.EMAIL_USER}>`,
             bcc: mailArray.join(","),
             subject,
             html,
@@ -453,7 +453,7 @@ export const sendMailToApplicantTeam = async ( req , res , next ) => {
 
         
         const mailOptions = {
-            from: `Notification <${process.env.EMAIL}>`,
+            from: `Notification <${process.env.EMAIL_USER}>`,
             to: applicant.teamLeader.email,
             subject,
             html,
@@ -558,7 +558,7 @@ export const sendMailToApplicantSolo = async ( req , res , next ) => {
 
 
         const mailOptions = {
-            from: `Congratulations <${process.env.EMAIL}>`,
+            from: `Congratulations <${process.env.EMAIL_USER}>`,
             to: applicant.email,
             subject,
             html,
